@@ -12,7 +12,6 @@ print("~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 time.sleep(3)
 
-bosscounter = 0
 monster_int = 0
 alive = True
 
@@ -81,7 +80,7 @@ def weaponchoice():
         time.sleep(3)
         player[0] = WEAPONS[0]
         goldreward_int = int(random.randint(25, 100))
-        player[2] = player[2] + goldreward_int
+        player[3] = player[3] + goldreward_int
     elif weaponchoice == '2':
         print("You equip the ", weapon1[0])
         player[0] = weapon1
@@ -111,7 +110,7 @@ def combat():
     monstermaxdamage = ENEMIES[monster_int][2]
     print("The", monster[0][0], " steps forward, prepared to fight, you must be too.")
     time.sleep(2)
-    print("The", ENEMIES[monster_int][0], "charges at you, rolling to see who strikes first.")
+    print("The", ENEMIES[monster_int][0], "charges at you: rolling to see who strikes first.")
     time.sleep(1)
     initiative = random.randint(1,20)
     print("You rolled", initiative)
@@ -120,14 +119,15 @@ def combat():
     print("The", ENEMIES[monster_int][0], "rolled", monsterinitiative)
     time.sleep(2)
     if initiative > monsterinitiative:
+      if player[0] == WEAPONS[1] or player[0] == WEAPONS[0]:
         print("You gain the iniative and attack first, choose 1-4")
-        print("1. slash center mass")
-        print("2. stab as accurately as possible")            
+        print("1. chop center mass")
+        print("2. jab as accurately as possible")            
         print("3. smash with all your might")
         print("4. crash into the enemy")
         attackinput = int(input())
         if attackinput == 1:
-              print("You attempt to slash the", ENEMIES[monster_int][0])
+              print("You attempt to chop the", ENEMIES[monster_int][0])
               time.sleep(1)
               accuracycheck = random.randint(0,10)
               if playeraccuracy >= accuracycheck:
@@ -142,9 +142,11 @@ def combat():
                     print("The attack misses.")
                     time.sleep(2)
         elif attackinput == 2:                      
-              print("You attempt to stab the", ENEMIES[monster_int][0])
+              print("You attempt to jab the", ENEMIES[monster_int][0])
               playeraccuracy2 = playeraccuracy + 1
               playermindamage2 = playermindamage - 1
+              if playermindamage2 < 0:
+                      playermindamage2 = 0
               playermaxdamage2 = playermaxdamage - 1
               accuracycheck = random.randint(0,10)
               time.sleep(1)
@@ -181,6 +183,91 @@ def combat():
               print("You attempt to crash into the", ENEMIES[monster_int][0])
               playeraccuracy4 = playeraccuracy + 2
               playermindamage4 = playermindamage - 2
+              if playermindamage4 < 0:
+                      playermindamage4 = 0
+              playermaxdamage4 = playermaxdamage - 1
+              accuracycheck = random.randint(0,10)
+              time.sleep(1)
+              if playeraccuracy4 >= accuracycheck:
+                    playerhit = random.randint(playermindamage4, playermaxdamage4)
+                    print("The blow lands! You deal", playerhit, "damage.")
+                    time.sleep(2)
+                    monsterlife = monsterlife - playerhit
+                    if monsterlife >= 0:
+                          print("The monster now has", monsterlife, "health.")
+                          time.sleep(2)
+              else:
+                    print("The attack misses.")
+                    time.sleep(2)
+        else:
+                   print("You trip over a rock and scurry to your feet after a few seconds, but the monster is upon you already")
+                    #ABOVE THIS IS BAREHANDS
+      else:      
+        print("You gain the iniative and attack first, choose 1-4")
+        print("1. slash center mass")
+        print("2. stab as accurately as possible")            
+        print("3. smash with all your might")
+        print("4. crash into the enemy")
+        attackinput = int(input())
+        if attackinput == 1:
+              print("You attempt to slash the", ENEMIES[monster_int][0])
+              time.sleep(1)
+              accuracycheck = random.randint(0,10)
+              if playeraccuracy >= accuracycheck:
+                    playerhit = random.randint(playermindamage, playermaxdamage)
+                    print("The blow lands! You deal", playerhit, "damage.")
+                    time.sleep(2)
+                    monsterlife = monsterlife - playerhit
+                    if monsterlife >= 0:
+                          print("The monster now has", monsterlife, "health.")
+                          time.sleep(2)
+              else:
+                    print("The attack misses.")
+                    time.sleep(2)
+        elif attackinput == 2:                      
+              print("You attempt to stab the", ENEMIES[monster_int][0])
+              playeraccuracy2 = playeraccuracy + 1
+              playermindamage2 = playermindamage - 1
+              if playermindamage2 < 0:
+                      playermindamage2 = 0
+              playermaxdamage2 = playermaxdamage - 1
+              accuracycheck = random.randint(0,10)
+              time.sleep(1)
+              if playeraccuracy2 >= accuracycheck:
+                    playerhit = random.randint(playermindamage2, playermaxdamage2)
+                    print("The blow lands! You deal", playerhit, "damage.")
+                    time.sleep(2)
+                    monsterlife = monsterlife - playerhit
+                    if monsterlife >= 0:
+                          print("The monster now has", monsterlife, "health.")
+                          time.sleep(2)
+              else:
+                    print("The attack misses.")
+                    time.sleep(2)
+        elif attackinput == 3:
+              print("You attempt to smash the", ENEMIES[monster_int][0])
+              playeraccuracy3 = playeraccuracy - 1
+              playermindamage3 = playermindamage + 1
+              playermaxdamage3 = playermaxdamage + 2
+              accuracycheck = random.randint(0,10)
+              time.sleep(1)
+              if playeraccuracy3 >= accuracycheck:
+                    playerhit = random.randint(playermindamage3, playermaxdamage3)
+                    print("The blow lands! You deal", playerhit, "damage.")
+                    time.sleep(2)
+                    monsterlife = monsterlife - playerhit
+                    if monsterlife >= 0:
+                          print("The monster now has", monsterlife, "health.")
+                          time.sleep(2)
+              else:
+                    print("The attack misses.")
+                    time.sleep(2)
+        elif attackinput == 4:
+              print("You attempt to crash into the", ENEMIES[monster_int][0])
+              playeraccuracy4 = playeraccuracy + 2
+              playermindamage4 = playermindamage - 2
+              if playermindamage4 < 0:
+                      playermindamage4 = 0
               playermaxdamage4 = playermaxdamage - 1
               accuracycheck = random.randint(0,10)
               time.sleep(1)
@@ -211,95 +298,186 @@ def combat():
         if player[1] <= 0:
               alive = False
         elif player[1] > 0:
-            print("Choose your attack: 1-4")
-            time.sleep(.2)
-            print("1. slash center mass")
-            time.sleep(.2)
-            print("2. stab as accurately as possible")
-            time.sleep(.2)
-            print("3. smash with all your might")
-            time.sleep(.2)
-            print("4. crash into the enemy")
-            attackinput = int(input())
-            if attackinput == 1:
-                  print("You attempt to slash the", ENEMIES[monster_int][0])
-                  time.sleep(1)
-                  accuracycheck = random.randint(0,10)
-                  if playeraccuracy >= accuracycheck:
-                        playerhit = random.randint(playermindamage, playermaxdamage)
-                        print("The blow lands! You deal", playerhit, "damage.")
-                        time.sleep(2)
-                        monsterlife = monsterlife - playerhit
-                        if monsterlife >= 0:
-                              print("The monster now has", monsterlife, "health.")
-                              time.sleep(2)
-                  else: 
-                        print("The attack misses.")
-                        time.sleep(2)
-            elif attackinput == 2:                      
-                  print("You attempt to stab the", ENEMIES[monster_int][0])
-                  playeraccuracy2 = playeraccuracy + 1
-                  playermindamage2 = playermindamage - 1
-                  playermaxdamage2 = playermaxdamage - 1
-                  accuracycheck = random.randint(0,10)
-                  time.sleep(1)
-                  if playeraccuracy2 >= accuracycheck:
-                        playerhit = random.randint(playermindamage2, playermaxdamage2)
-                        print("The blow lands! You deal", playerhit, "damage.")
-                        time.sleep(2)
-                        monsterlife = monsterlife - playerhit
-                        if monsterlife >= 0:
-                              print("The monster now has", monsterlife, "health.")
-                              time.sleep(2)
-                  else:
-                        print("The attack misses.")
-                        time.sleep(2)
-            elif attackinput == 3:
-                  print("You attempt to smash the", ENEMIES[monster_int][0])
-                  playeraccuracy3 = playeraccuracy - 1
-                  playermindamage3 = playermindamage + 1
-                  playermaxdamage3 = playermaxdamage + 2
-                  accuracycheck = random.randint(0,10)
-                  time.sleep(1)
-                  if playeraccuracy3 >= accuracycheck:
-                        playerhit = random.randint(playermindamage3, playermaxdamage3)
-                        print("The blow lands! You deal", playerhit, "damage.")
-                        time.sleep(2)
-                        monsterlife = monsterlife - playerhit
-                        if monsterlife >= 0:
-                              print("The monster now has", monsterlife, "health.")
-                              time.sleep(2)
-                  else:
-                        print("The attack misses.")
-                        time.sleep(2)
-            elif attackinput == 4:
-                  print("You attempt to crash into the", ENEMIES[monster_int][0])
-                  playeraccuracy4 = playeraccuracy + 2
-                  playermindamage4 = playermindamage - 2
-                  playermaxdamage4 = playermaxdamage - 1
-                  accuracycheck = random.randint(0,10)
-                  time.sleep(1)
-                  if playeraccuracy4 >= accuracycheck:
-                        playerhit = random.randint(playermindamage4, playermaxdamage4)
-                        print("The blow lands! You deal", playerhit, "damage.")
-                        time.sleep(2)
-                        monsterlife = monsterlife - playerhit
-                        if monsterlife >= 0:
-                              print("The monster now has", monsterlife, "health.")
-                              time.sleep(2)
-                  else:
-                        print("The attack misses.")
-                        time.sleep(2)
-           else:
-               print("You trip over a rock and scurry to your feet after a few seconds, but the monster is upon you already")
+            if player[0] == WEAPONS[1] or player[0] == WEAPONS[0]:
+                        print("You gain the iniative and attack first, choose 1-4")
+                        print("1. chop center mass")
+                        print("2. jab as accurately as possible")            
+                        print("3. smash with all your might")
+                        print("4. crash into the enemy")
+                        attackinput = int(input())
+                        if attackinput == 1:
+                              print("You attempt to chop the", ENEMIES[monster_int][0])
+                              time.sleep(1)
+                              accuracycheck = random.randint(0,10)
+                              if playeraccuracy >= accuracycheck:
+                                    playerhit = random.randint(playermindamage, playermaxdamage)
+                                    print("The blow lands! You deal", playerhit, "damage.")
+                                    time.sleep(2)
+                                    monsterlife = monsterlife - playerhit
+                                    if monsterlife >= 0:
+                                          print("The monster now has", monsterlife, "health.")
+                                          time.sleep(2)
+                              else:
+                                    print("The attack misses.")
+                                    time.sleep(2)
+                        elif attackinput == 2:                      
+                              print("You attempt to jab the", ENEMIES[monster_int][0])
+                              playeraccuracy2 = playeraccuracy + 1
+                              playermindamage2 = playermindamage - 1
+                              if playermindamage2 < 0:
+                                      playermindamage2 = 0
+                              playermaxdamage2 = playermaxdamage - 1
+                              accuracycheck = random.randint(0,10)
+                              time.sleep(1)
+                              if playeraccuracy2 >= accuracycheck:
+                                    playerhit = random.randint(playermindamage2, playermaxdamage2)
+                                    print("The blow lands! You deal", playerhit, "damage.")
+                                    time.sleep(2)
+                                    monsterlife = monsterlife - playerhit
+                                    if monsterlife >= 0:
+                                          print("The monster now has", monsterlife, "health.")
+                                          time.sleep(2)
+                              else:
+                                    print("The attack misses.")
+                                    time.sleep(2)
+                        elif attackinput == 3:
+                              print("You attempt to smash the", ENEMIES[monster_int][0])
+                              playeraccuracy3 = playeraccuracy - 1
+                              playermindamage3 = playermindamage + 1
+                              playermaxdamage3 = playermaxdamage + 2
+                              accuracycheck = random.randint(0,10)
+                              time.sleep(1)
+                              if playeraccuracy3 >= accuracycheck:
+                                    playerhit = random.randint(playermindamage3, playermaxdamage3)
+                                    print("The blow lands! You deal", playerhit, "damage.")
+                                    time.sleep(2)
+                                    monsterlife = monsterlife - playerhit
+                                    if monsterlife >= 0:
+                                          print("The monster now has", monsterlife, "health.")
+                                          time.sleep(2)
+                              else:
+                                    print("The attack misses.")
+                                    time.sleep(2)
+                        elif attackinput == 4:
+                              print("You attempt to crash into the", ENEMIES[monster_int][0])
+                              playeraccuracy4 = playeraccuracy + 2
+                              playermindamage4 = playermindamage - 2
+                              if playermindamage4 < 0:
+                                      playermindamage4 = 0
+                              playermaxdamage4 = playermaxdamage - 1
+                              accuracycheck = random.randint(0,10)
+                              time.sleep(1)
+                              if playeraccuracy4 >= accuracycheck:
+                                    playerhit = random.randint(playermindamage4, playermaxdamage4)
+                                    print("The blow lands! You deal", playerhit, "damage.")
+                                    time.sleep(2)
+                                    monsterlife = monsterlife - playerhit
+                                    if monsterlife >= 0:
+                                          print("The monster now has", monsterlife, "health.")
+                                          time.sleep(2)
+                              else:
+                                    print("The attack misses.")
+                                    time.sleep(2)
+                        else:
+                           print("You trip over a rock and scurry to your feet after a few seconds, but the monster is upon you already")
+            else:
+                print("Choose your attack: 1-4")
+                time.sleep(.2)
+                print("1. slash center mass")
+                time.sleep(.2)
+                print("2. stab as accurately as possible")
+                time.sleep(.2)
+                print("3. smash with all your might")
+                time.sleep(.2)
+                print("4. crash into the enemy")
+                attackinput = int(input())
+                if attackinput == 1:
+                      print("You attempt to slash the", ENEMIES[monster_int][0])
+                      time.sleep(1)
+                      accuracycheck = random.randint(0,10)
+                      if playeraccuracy >= accuracycheck:
+                            playerhit = random.randint(playermindamage, playermaxdamage)
+                            print("The blow lands! You deal", playerhit, "damage.")
+                            time.sleep(2)
+                            monsterlife = monsterlife - playerhit
+                            if monsterlife >= 0:
+                                  print("The monster now has", monsterlife, "health.")
+                                  time.sleep(2)
+                      else: 
+                            print("The attack misses.")
+                            time.sleep(2)
+                elif attackinput == 2:                      
+                      print("You attempt to stab the", ENEMIES[monster_int][0])
+                      playeraccuracy2 = playeraccuracy + 1
+                      playermindamage2 = playermindamage - 1
+                      if playermindamage2 < 0:
+                          playermindamage2 = 0
+                      playermaxdamage2 = playermaxdamage - 1
+                      accuracycheck = random.randint(0,10)
+                      time.sleep(1)
+                      if playeraccuracy2 >= accuracycheck:
+                            playerhit = random.randint(playermindamage2, playermaxdamage2)
+                            print("The blow lands! You deal", playerhit, "damage.")
+                            time.sleep(2)
+                            monsterlife = monsterlife - playerhit
+                            if monsterlife >= 0:
+                                  print("The monster now has", monsterlife, "health.")
+                                  time.sleep(2)
+                      else:
+                            print("The attack misses.")
+                            time.sleep(2)
+                elif attackinput == 3:
+                      print("You attempt to smash the", ENEMIES[monster_int][0])
+                      playeraccuracy3 = playeraccuracy - 1
+                      playermindamage3 = playermindamage + 1
+                      playermaxdamage3 = playermaxdamage + 2
+                      accuracycheck = random.randint(0,10)
+                      time.sleep(1)
+                      if playeraccuracy3 >= accuracycheck:
+                            playerhit = random.randint(playermindamage3, playermaxdamage3)
+                            print("The blow lands! You deal", playerhit, "damage.")
+                            time.sleep(2)
+                            monsterlife = monsterlife - playerhit
+                            if monsterlife >= 0:
+                                  print("The monster now has", monsterlife, "health.")
+                                  time.sleep(2)
+                      else:
+                            print("The attack misses.")
+                            time.sleep(2)
+                elif attackinput == 4:
+                      print("You attempt to crash into the", ENEMIES[monster_int][0])
+                      playeraccuracy4 = playeraccuracy + 2
+                      playermindamage4 = playermindamage - 2
+                      if playermindamage4 < 0:
+                          playermindamage4 = 0
+                      playermaxdamage4 = playermaxdamage - 1
+                      accuracycheck = random.randint(0,10)
+                      time.sleep(1)
+                      if playeraccuracy4 >= accuracycheck:
+                            playerhit = random.randint(playermindamage4, playermaxdamage4)
+                            print("The blow lands! You deal", playerhit, "damage.")
+                            time.sleep(2)
+                            monsterlife = monsterlife - playerhit
+                            if monsterlife >= 0:
+                                  print("The monster now has", monsterlife, "health.")
+                                  time.sleep(2)
+                      else:
+                            print("The attack misses.")
+                            time.sleep(2)
+                else:
+                   print("You trip over a rock and scurry to your feet after a few seconds, but the monster is upon you already")
     if monsterlife <= 0:
                   print("You slay the", ENEMIES[monster_int][0], "and it topples to the ground.")
                   return True
     elif alive == False:
                 return False
-
+def bosschoice():
+    return
 def bossfight():
-    
+    return True
+#comment this out lazy fuck
+    bosschoice = 0
+    bosschoice = bosschoice()
     print("As you are about to enter the arena you are again presented with a choice of weapons:")
     time.sleep(3)
     weaponchoice()
@@ -307,17 +485,20 @@ def bossfight():
     time.sleep(5)
     print("The arena is slew with corpses and it is immediately apparent what created them.")
     time.sleep(4)
-    print("Before you stands a",
+    print("Before you stands a", bosschoice)
+bosscounter = 1          
 def game():
     global alive
+    global bosscounter
     bosscounter = bosscounter + random.randint(0,5)
-    if bosscounter % random.randint(1,7) == 0:
+    bosscounter2 = random.randint(1,7)
+    if bosscounter % bosscounter2 == 0:
         return bossfight()   
-    monsterchoice()
-    time.sleep(3)
-    print("As you enter the arena your eyes fall upon a", monster[0][0])
-    time.sleep(3)
-    if bosscounter % 5 != 0:
+    if bosscounter % bosscounter2 != 0:
+        monsterchoice()
+        time.sleep(3)
+        print("As you enter the arena your eyes fall upon a", monster[0][0])
+        time.sleep(3)
         return combat()
     #return True or False
 
@@ -335,8 +516,8 @@ while alive == True:
         amount = len(ENEMIES)
         newenemy = (ENEMIES[monster_int][0], ENEMIES[monster_int][1] + 1, ENEMIES[monster_int][2] + 1, ENEMIES[monster_int][3] + 1, ENEMIES[monster_int][4] + 1, ENEMIES[monster_int][5] + 20)
         ENEMIES.append(newenemy)
-        player[5] = player[5] + ENEMIES[monster_int][5]
-        print("You now have", player[5], "gold")
+        player[3] = player[3] + ENEMIES[monster_int][5]
+        print("You now have", player[3], "gold")
         time.sleep(2)
         print("You have won", player[4], "fights")
         time.sleep(2)
