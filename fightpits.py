@@ -1,6 +1,8 @@
 import time
 import random
 
+
+#when creating new bosses need to edit bossability, bossdialogue, weakpoint and bossappend
 def print_pause(lines):
     for (line, pause) in lines:
             print(line)
@@ -12,8 +14,12 @@ print("~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 time.sleep(3)
 
+bosschoice = BOSSES[0]
 monster_int = 0
 alive = True
+bosscount = 0
+bossabilityflip = 0
+bossabilitycount = 0
 
 typeplaceint = int(random.randint(1,12))
 typeplacelist = ["zero", "slums", "sewers", "country", "suburbs", "bay", "ghetto", "intercity", "pits", "forest", "boroughs", "outposts", "meadows"]
@@ -40,8 +46,8 @@ ENEMIES = [('none', 0, 0, 0, 0, 0), ('giant spider', 0, 4, 4, 4, 50), ('troll', 
 #name, attack min, attack max, accuracy, health, gold dropped
 player = [WEAPONS[1], 20, 20, 0, 0]
 #weapon health healthmax gold wins
-BOSSES = [('Wyvern', 2, 4, 7, 30, 1000, 2, 1),]
-#name, attack min, attack max, accuracy, health, gold dropped, boss factor(stat increases on the new boss append), player accuracy multiplier
+BOSSES = [('Wyvern', 2, 4, 7, 30, 1000, 1, 1),]
+#name, attack min, attack max, accuracy, health, gold dropped, boss factor(stat increases on the new boss append), player accuracy subtracter
 monster = [ENEMIES[0]]
 def reroll_weapon():
     return int(random.randint(2, (len(WEAPONS)-1)))
@@ -471,13 +477,42 @@ def combat():
                   return True
     elif alive == False:
                 return False
+def bossdialogue():
+    if bosschoice[0] == 'Wyvern':
+        print("The Wyvern is a fierce foe and will take everything you have to overcome it")
+        time.sleep(3)
+        print("Be careful of it's ability to breathe fire and fly in the arena")
+def bossappend():
+    if bosschoice[0] == 'Wyvern':
+def bossability():
+    global bossabilityflip
+    global bossabilitycount
+    global bosschoice
+    if bosschoice[0] == 'Wyvern':    
+        bossabilityflip = random.randint(0, 1)
+        if bossabilityflip == 0:
+            print("The Wyvern inhales sharply it is sure to breathe fire next turn.")
+            time.sleep(4)
+            print("Please choose 1-4")
+            #player has choice to hide from next turns fire (rng) or keep fighting for critical strike
+        if bossabilityflip ==1:
+            print("The Wyvern jumps into the air and flaps it's wings. It takes off.")
+            #wyvern attacks multiple times uninterupted
 def bosschoice():
-    return
+    global bosschoice
+    global BOSSES
+    global bosscount
+    bosschoice = random.choice(BOSSES)
+def weakpoint():
+    if bosschoice[0] == 'Wyvern':
+        return('neck')
 def bossfight():
     return True
+    global bosschoice
+    global alive
+    bosshealth = bosschoice[4]
+    bosschoice()
 #comment this out lazy fuck
-    bosschoice = 0
-    bosschoice = bosschoice()
     print("As you are about to enter the arena you are again presented with a choice of weapons:")
     time.sleep(3)
     weaponchoice()
@@ -485,7 +520,70 @@ def bossfight():
     time.sleep(5)
     print("The arena is slew with corpses and it is immediately apparent what created them.")
     time.sleep(4)
-    print("Before you stands a", bosschoice)
+    print("Before you stands a", bosschoice[0])
+    time.sleep(2)
+    if bosscount == 0
+        print("During this fight you will have to fight a boss and deal with it's special attacks.")
+        time.sleep(3)
+    bosscount = bosscount + 1
+    bossname = bosschoice[0]
+    bossdialogue()
+    weakpoint = weakpoint()
+    bosses = bosschoice[0] + "'s"
+    print("Rolling for initiative")
+    time.sleep(2)
+    playerinitiative = random.randint(1, 20)
+    bossinitiative = random.randint(1, 20)
+    print("You roll", playerinitiative, "against the bosses", bossinitiative)
+    time.sleep(3)
+    if playerinitiative > bossinitiative:
+        print("Please choose 1-4")
+        time.sleep(1)
+        if player[0] == WEAPONS[1] or player[0] == WEAPONS[0]:
+            print("1. Punch the", bosschoice[0])
+        else:
+            print("1. Slash at the", bosschoice[0])
+        if player[0] == WEAPONS[1] or player[0] == WEAPONS[0]:
+            print("2. Smash the", bosschoice[0], "with your fists"
+        else:
+            print("2. Smash the", bosschoice[0], "with your", player[0][0])
+        if player[0] == WEAPONS[1] or player[0] == WEAPONS[0]:
+            print("3. Try to kick the", bosses, weakpoint)
+        else:
+            print("3. Aim for the", bosses, weakpoint)
+        if player[0] == WEAPONS[1] or player[0] == WEAPONS[0]:
+            print("4. Go all highlander on the", bosschoice[0])
+        else:
+            print("4. Attempt to charge the", bosschoice[0])
+        attackinput = int(input())
+        if attackinput == 1:
+            if player[0] == WEAPONS[1] or player[0] == WEAPONS[0]:
+                 print("You attempt to punch the", bosschoice[0])
+                  time.sleep(2)
+            else:
+                print("You attempt to slash the", bosschoice[0])
+                  time.sleep(2)
+            accuracycheck = random.randint(0, 10)
+            if player[0][3] - bosschoice[7] > accuracycheck:
+                  damage = random.randint(player[0][1], player[0][2])
+                  bosshealth = bosshealth - damage
+                  print("The strike hits!")
+                  time.sleep(1)
+                  print("You deal", damage, "damage")
+                  print("The", bosschoice[0], "now has", bosshealth, "health")
+            else:
+                  print("You missed!")
+                  time.sleep(1)
+    else:
+        while bosslife > 0 and alive:
+                  bossability = random.randint(0, 5)
+                  if bossability == random.randint(0, 5):
+                      bossability()
+                  else:
+                      #boss attacks
+
+                  
+                  
 bosscounter = 1          
 def game():
     global alive
